@@ -1,0 +1,83 @@
+1、index.jsp 首页面
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.jzero.util.*,com.jzero.tag.*,com.jzero.core.*"%>
+<%=T.js("js/My97DatePicker/WdatePicker.js") %>
+<jsp:include page="/comm/jsp/index_top.jsp" >
+    <jsp:param name="SHOW_COMM" value="true" />
+</jsp:include>
+  <%=T.form_open("","delForm") %>
+	<%=T.table_list(5,"友情链接")%>
+		<%=T.tr()%>
+			<%=T.td("center",T.a_checkbox(),"5%") %>
+			<%=T.td("15%","网站名称") %>
+			<%=T.td("30%","网站地址") %>
+			<%=T.td("30%","描述") %>
+			<%=T.td("center","操作","15%") %>
+    	<%=T.tr_close() %>
+    	<% List<MRecord> lst=MR.me().getAttr(Msg.LIST_DATAS);if(!MCheck.isNull(lst)){for(MRecord row:lst){ %>
+    		<%=T.tr() %>
+    			<%=T.td("center",T.a_checkbox(row.getStr("id")),"5%") %>
+    			<%=T.td(T.a_view(row.getStr("id"),row.getStr("webname")))%>
+    			<%=T.td(T.a(row.getStr("website"))) %>
+    			<%=T.td(row.getStr("content")) %>
+    			<%=T.td_c("center") %>
+    				<%=T.a_edit(row.getStr("id")) %>
+    				<%=T.a_del(row.getStr("id")) %>
+    			<%=T.td_close() %>
+    		<%=T.tr_close() %>
+    	<% }}%>
+    	<%=T.form_close() %>
+   		<%=T.pager(5) %>
+	<%=T.table_close() %>
+<%=T.end()%>
+
+
+
+2、新增页面
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.jzero.util.*,com.jzero.tag.T,com.jzero.core.*"%>
+<jsp:include page="/comm/jsp/add_top.jsp">
+  <jsp:param name="SHOW_KIND" value="true" />
+</jsp:include>
+	<%=T.add_table() %>
+		<%=T.tr() %><%=T.td_l("20%","网站名称","webname") %><%=T.td() %><%=T.input_must_style("webname","width:280px")%><%=T.td_close() %><%=T.tr_close() %>
+		<%=T.tr() %><%=T.td_l("网站地址","website") %><%=T.td() %><%=T.input_must_style("website","http://","width:280px")%><%=T.td_close() %><%=T.tr_close() %>
+		<%=T.tr() %><%=T.td_l("网站描述","content") %><%=T.td(T.textarea_kind_no("content",320)) %><%=T.tr_close() %>
+	<%=T.tr_space() %>
+	<%=T. table_close_form() %>
+<%=T.alert() %>
+<%=T.kind_js("content") %>
+<%=T.end() %>
+
+
+3、修改页面
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.jzero.util.*,com.jzero.tag.T,com.jzero.core.*"%>
+<%=T.js("js/My97DatePicker/WdatePicker.js") %>
+<%@include file="/comm/js/wdate.jsp" %>
+<jsp:include page="/comm/jsp/edit_top.jsp">
+  <jsp:param name="SHOW_KIND" value="true" />
+</jsp:include>
+	 <% MRecord row=MR.me().getAttr(Msg.OBJECT); %>
+	<%=T.edit_table() %>
+		<%=T.hidden_id(row.getStr("id")) %>
+		<%=T.tr() %><%=T.td_l("20%","网站名称","webname") %><%=T.td() %><%=T.input_must_style("webname",row.getStr("webname"),"width:280px")%><%=T.td_close() %><%=T.tr_close() %>
+		<%=T.tr() %><%=T.td_l("网站地址","website") %><%=T.td() %><%=T.input_must_style("website",row.getStr("website"),"width:280px")%><%=T.td_close() %><%=T.tr_close() %>
+		<%=T.tr() %><%=T.td_l("网站描述","content") %><%=T.td(T.textarea_kind_no("content",row.getStr("content"),320)) %><%=T.tr_close() %>
+		<%=T.tr_space() %>
+	<%=T. table_close_form() %>
+<%=T.kind_js("content") %>
+<%=T.end() %>
+
+
+4、查看页面
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="com.jzero.util.*,com.jzero.tag.T,com.jzero.core.*"%>
+<%@include file="/comm/jsp/view_top.jsp" %>
+  <%=T.view_table() %>
+		<%=T.tr() %><%=T.td_l("20%","网站名称","webname") %><%=T.td(obj.getStr("webname")) %><%=T.tr_close() %>
+		<%=T.tr() %><%=T.td_l("网站地址","website") %><%=T.td(T.a(obj.getStr("website"))) %><%=T.tr_close() %>
+		<%=T.tr() %><%=T.td_l("网站描述","content") %><%=T.td(obj.getStr("content")) %><%=T.tr_close() %>
+		<%=T.tr_space(2) %>
+	<%=T. table_close_form() %>
+<%=T.end() %>
