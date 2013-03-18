@@ -374,18 +374,4 @@ public class MTool {
 	public static void delete(String filepath){
 		MCache.me().delete_file(filepath);
 	}
-	public static String formart_bytes(File file){
-			String byte_s = "";
-			long bytes = file.length();
-			if (bytes < 1024) {
-				byte_s = bytes + " B";
-			} else if (bytes < 1048576) {
-				byte_s = Math.round(bytes / 1024) + " K";
-			} else if (bytes < 1073741824) {
-				byte_s = Math.round(bytes / 1048576) + " M";
-			} else if (bytes < 1099511627776L) {
-				byte_s = Math.round(bytes / 1073741824) + " G";
-			}
-			return byte_s;
-		 }
 }

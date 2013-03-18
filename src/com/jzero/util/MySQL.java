@@ -46,11 +46,4 @@ public class MySQL {
 	// 读取某一个表的字段
 	public static final String MYSQL_FIELD = "SHOW  FULL FIELDS FROM ";
 	/*************************************MYSQL读取字段属性SQL结束**********************************/
-	
-	
-	/*************************************SQLITE读取字段属性SQL开始**********************************/
-	// 读取所有的表
-	public static final String SQLITE_TABLE = "SELECT * FROM sqlite_master";
-
-	/*************************************SQLITE读取字段属性SQL结束**********************************/
 }
