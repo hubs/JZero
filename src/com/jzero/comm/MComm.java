@@ -47,7 +47,7 @@ public class MComm {
 	 * @param toURI /welcome/list.jsp
 	 */
 	public void m_list(String table,String toURI,MRecord outDatas,String where,Object ...order){
-		m_list(table, toURI, outDatas, where, null,null, order);
+		m_list(table, toURI, outDatas, where, null,null,null, order);
 	}
 	//->格式: dir/controller/method/order/find_str/page_seg
 	public void m_list(String table,String toURI,MRecord outDatas,String where,Integer page_seg,Integer order_seg,Integer pageSize,Object ...order){
@@ -119,7 +119,7 @@ public class MComm {
 		find_seg=MCheck.isNull(order_seg)?3:order_seg+1;//如果设置了排序字段位置,则find_seg在排序的字段后面,所在加上1  2012-11-02
 		String w=MCommHelp.get_find_where(findField,select_name,find_seg);
 		if(!MCheck.isNull(where)){w+=where;}
-		m_list(table,toURI, outDatas, w,null,order_seg,order);
+		m_list(table,toURI, outDatas, w,null,order_seg,null,order);
 	}
 	public void m_find(String table,String where,String select_name,Object...order){
 		m_find(table,select_name,null,null,where,null,null,order);
