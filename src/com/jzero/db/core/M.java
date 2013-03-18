@@ -45,6 +45,7 @@ public class M {
 		} catch (Exception e1) {
 			Log.me().write_error(e1);
 		}
+		
 		return db;
 	}
 

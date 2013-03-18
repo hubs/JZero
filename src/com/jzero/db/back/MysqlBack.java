@@ -13,6 +13,7 @@ import com.jzero.util.MEncrypt;
 import com.jzero.util.MPath;
 import com.jzero.util.MPro;
 import com.jzero.util.MRecord;
+import com.jzero.util.MTool;
 
 /**
  * 2012-10-24: wangujqw@gmail.com
@@ -22,11 +23,9 @@ public class MysqlBack implements MBackup {
 	public MRecord backup() {
 		MRecord record = new MRecord();
 		MPro pros = MPro.me();
-		String user = MEncrypt.decrypt(MPro.me()
-				.getStr("username"));
+		String user = MEncrypt.decrypt(MPro.me().getStr("username"));
 		String _temp_pass = MPro.me().getStr("password");
-		String pwd = MCheck.isNull(_temp_pass) ? "" : MEncrypt
-				.decrypt(_temp_pass);
+		String pwd = MCheck.isNull(_temp_pass) ? "" : MEncrypt.decrypt(_temp_pass);
 		String hostname = pros.getStr("hostname");
 		String database = pros.getStr("database");
 		String back_file = MPath.me().getSrcPath() + "/back/";
@@ -45,7 +44,7 @@ public class MysqlBack implements MBackup {
 					.append(" ").append(database);
 			Process p = Runtime.getRuntime().exec(sb.toString());
 			copy(p, new File(back_file, backName));
-			record.set("size", formart_bytes(new File(back_file, backName)));
+			record.set("size", MTool.formart_bytes(new File(back_file, backName)));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,20 +52,7 @@ public class MysqlBack implements MBackup {
 
 	}
 
-	 private String formart_bytes(File file){
-		String byte_s = "";
-		long bytes = file.length();
-		if (bytes < 1024) {
-			byte_s = bytes + " B";
-		} else if (bytes < 1048576) {
-			byte_s = Math.round(bytes / 1024) + " K";
-		} else if (bytes < 1073741824) {
-			byte_s = Math.round(bytes / 1048576) + " M";
-		} else if (bytes < 1099511627776L) {
-			byte_s = Math.round(bytes / 1073741824) + " G";
-		}
-		return byte_s;
-	 }
+	
 
 	private void copy(Process p, File dst) {
 		// 设置导出编码为utf-8。这里必须是utf-8
@@ -101,19 +87,15 @@ public class MysqlBack implements MBackup {
 
 	public void load(String filename) {
 		String mysqlpaths = MPro.me().getStr("mysql_path");
-		String user = MEncrypt.decrypt(MPro.me()
-				.getStr("username"));
+		String user = MEncrypt.decrypt(MPro.me().getStr("username"));
 		String _temp_pass = MPro.me().getStr("password");
-		String pwd = MCheck.isNull(_temp_pass) ? "" : MEncrypt
-				.decrypt(_temp_pass);
+		String pwd = MCheck.isNull(_temp_pass) ? "" : MEncrypt.decrypt(_temp_pass);
 		String back_file = MPath.me().getSrcPath() + "/back";
 		String filepath = back_file + filename; // 备份的路径地址
 
 		// 新建数据库finacing
-		String stmt1 = mysqlpaths + " mysqladmin -u " + user + " -p" + pwd
-				+ " create finacing"; // -p后面加的是你的密码
-		String stmt2 = "mysql -u " + user + " -p" + pwd + " finacing < "
-				+ filepath;
+		String stmt1 = mysqlpaths + " mysqladmin -u " + user + " -p" + pwd+ " create finacing"; // -p后面加的是你的密码
+		String stmt2 = "mysql -u " + user + " -p" + pwd + " finacing < "+ filepath;
 		String[] cmd = { "cmd", "/c", stmt2 };
 		try {
 			Runtime.getRuntime().exec(stmt1);

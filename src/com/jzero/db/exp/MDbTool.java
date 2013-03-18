@@ -3,6 +3,7 @@ package com.jzero.db.exp;
 
 import com.jzero.util.MCheck;
 import com.jzero.util.MEncrypt;
+import com.jzero.util.MPath;
 import com.jzero.util.MPro;
 import com.jzero.util.MRecord;
 
@@ -36,6 +37,10 @@ public class MDbTool {
 		} else if ("mysql".equalsIgnoreCase(db)) {
 			url="jdbc:mysql://"+addr+":"+port+"/"+dbname+"?useUnicode=true&amp;characterEncoding=UTF-8&autoReconnect=true&failOverReadOnly=false";
 			driver = "com.mysql.jdbc.Driver";
+		}else if("sqlite".equalsIgnoreCase(db)){
+			String mysqlpaths=MPath.me().getWebInfPath()+"classes/";
+			url="jdbc:sqlite:"+mysqlpaths+dbname;//sqlite是嵌入式,所以不用指定addr,port
+			driver = "org.sqlite.JDBC";
 		}
 		record.set("url", url);
 		record.set("driver", driver);
