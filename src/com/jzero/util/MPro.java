@@ -61,11 +61,10 @@ public class MPro {
 	}
 
 	private OutputStream getOutputStream(String fileName) throws Exception {
-		return new FileOutputStream(new File(getPath(fileName, getClass())));
+		return new FileOutputStream(new File(getfilePath(fileName)));
 	}
-
-	private OutputStream getOutputStreamSrc(String fileName) throws Exception {
-		return new FileOutputStream(new File(MPath.me().getSrcPath() + "\\"+ fileName));
+	private String getfilePath(String filename){
+		return MPath.me().getWebInfPath()+"classes/"+filename;
 	}
 
 	public Object getObj(String k) {
@@ -88,21 +87,34 @@ public class MPro {
 		if (MCheck.isNull(properties)) {
 			MPrint.print("pri is null!!");
 		} else {
-			properties.setProperty(name, value);
 			try {
-				// save classpath目录　
 				outputStream = getOutputStream(filename);
-				properties.store(outputStream, name + "=" + value);
-				outputStream.flush();
-
-				// save src目录下的文件
-				outputStream = getOutputStreamSrc(filename);
-				properties.store(outputStream, name + "=" + value);
+				outputStream = getOutputStream(filename);
+				properties.setProperty(name, value);
+				properties.store(outputStream,"JZero");
 				outputStream.flush();
 				outputStream.close();
 			} catch (Exception e) {
 				e.printStackTrace();
-//				Log.me().write_log(LogEnum.ERROR, e.getMessage());
+			}
+		}
+	}
+	/**
+	 * 保存到指定的文件中,test 
+	 */
+	public void setValue_file(String filename,String name, String value) {
+		if (MCheck.isNull(properties)) {
+			MPrint.print("pri is null!!");
+		} else {
+			try {
+				outputStream = getOutputStream(filename);
+				outputStream = getOutputStream(filename);
+				properties.setProperty(name, value);
+				properties.store(outputStream,"JZero");
+				outputStream.flush();
+				outputStream.close();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

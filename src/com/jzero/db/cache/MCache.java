@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.jzero.core.MInit;
+import com.jzero.core.MURI;
 import com.jzero.log.Log;
 import com.jzero.util.MCheck;
 import com.jzero.util.MMD5;
@@ -36,11 +37,19 @@ public class MCache implements ICache{
 		if(!isload){init();}
 		if(isEnabled()){//开启了缓存,现在创建目录
 			String filename=get_file_name(sql);
-			String controler=MInit.get().getURI().seg_str(0);
-		
+			/**
+			 * 当客户端发送Socket连接服务器,需要返回数据时,使用MInit.get()取不到数据,则直接保存到一个文件中
+			 */
 			String cache_file = MPath.me().getSrcPath() + "/cache";
-			controler=MCheck.isNull(controler)?MInit.get().getRouter().getDefault_controller():controler;
-			file=MFile.createFile(cache_file+"/"+controler.toLowerCase(),filename);//File.separator
+			MInit init=MInit.get();
+			if(MCheck.isNull(init)){//终端发送指令
+				file=MFile.createFile(cache_file+"/"+"socket",filename);//File.separator
+			}else{
+				MURI uri=MInit.get().getURI();
+				String controler=MCheck.isNull(uri)?MInit.get().getRouter().getDefault_controller():uri.seg_str(0);
+				controler=MCheck.isNull(controler)?MInit.get().getRouter().getDefault_controller():controler;
+				file=MFile.createFile(cache_file+"/"+controler.toLowerCase(),filename);//File.separator
+			}
 		}
 		return file;
 	}

@@ -7,14 +7,14 @@ package com.jzero.util;
 
 public final class MCnt {
 
-	private StringBuffer sb = null;
-
+	private static StringBuffer sb = new StringBuffer();
+	private static MCnt cnt=new MCnt();
 	public MCnt() {
-		sb = new StringBuffer();
+		sb.setLength(0);//清除
 	}
 
 	public static MCnt me(){
-		return new MCnt();
+		return cnt;
 	}
 
 	public void clear() {
@@ -25,7 +25,6 @@ public final class MCnt {
 	 * 第一次 拼装成 key=value 或者 key>=value这种格式 AND
 	 */
 	public MCnt first(String key, MEnum symbols, Object value) {
-		sb = new StringBuffer();
 		if (symbols.getValue().equals("LIKE")) {
 			value = "%" + value + "%";
 		}
