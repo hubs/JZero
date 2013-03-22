@@ -111,25 +111,38 @@ public class M {
 			Object... orderStr) {
 		return db.select(table, "", field, orderStr);
 	}
-
+	public List<MRecord> get_field_n(String field, String table,
+			Object... orderStr) {
+		return db.select_n(table, "", field, orderStr);
+	}
 	public List<MRecord> get_data(String table, Object... orderStr) {
 		return db.select(table, "", "", orderStr);
 	}
-
+	public List<MRecord> get_data_n(String table, Object... orderStr) {
+		return db.select_n(table, "", "", orderStr);
+	}
 	public List<MRecord> get_where(String table, String where,
 			Object... orderStr) {
 		return db.select(table, where, "", orderStr);
 	}
-
+	public List<MRecord> get_where_n(String table, String where,
+			Object... orderStr) {
+		return db.select_n(table, where, "", orderStr);
+	}
 	public List<MRecord> get_data(String field, String table, String where,
 			Object... orderStr) {
 		return db.select(table, where, field, orderStr);
 	}
-
+	public List<MRecord> get_data_n(String field, String table, String where,
+			Object... orderStr) {
+		return db.select_n(table, where, field, orderStr);
+	}
 	public List<MRecord> get_table(String table, Object... order) {
 		return db.select(table, null, null, order);
 	}
-
+	public List<MRecord> get_table_n(String table, Object... order) {
+		return db.select_n(table, null, null, order);
+	}
 	// ----------------------分页操作开始
 	private static int getCurrenPage(Integer seg) {
 		int level = MTool.get_level();

@@ -94,9 +94,12 @@ public abstract class CBase implements IDb {
 	}
 
 	public List<MRecord> select(String table, String where, String field,Object... params) {
-		return select(getConnection(),table,where,field,params);
+		return select(getConnection(),table,where,field,true,params);
 	}
-	public List<MRecord> select(Connection conn,String table, String where, String field,
+	public List<MRecord> select_n(String table, String where, String field,Object... params) {
+		return select(getConnection(),table,where,field,false,params);
+	}
+	public List<MRecord> select(Connection conn,String table, String where, String field,boolean cache,
 			Object... params) {
 		final StringBuffer sql_bf = new StringBuffer("SELECT ");
 		if ("*".equals(field) || MCheck.isNull(field)) {sql_bf.append(" * ");} else {sql_bf.append(field);}
@@ -107,8 +110,10 @@ public abstract class CBase implements IDb {
 //			sql_bf.append(" order by id desc ");// order by id desc
 		}
 		List<MRecord> data = null;
-		if (MCache.me().isEnabled()) {
-			data = MCache.me().read(sql_bf.toString());
+		if(cache){
+			if (MCache.me().isEnabled()) {
+				data = MCache.me().read(sql_bf.toString());
+			}
 		}
 		if(MCheck.isNull(data)){
 			data=select(sql_bf.toString());
