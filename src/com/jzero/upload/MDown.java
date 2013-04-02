@@ -9,6 +9,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
+import com.jzero.util.MCheck;
+
 public class MDown {
 
 	/**
@@ -29,16 +31,22 @@ public class MDown {
 			boolean isOk=false;
 			try{
 				out = new DataOutputStream(new FileOutputStream(fileName));
-				in = new DataInputStream(connection.getInputStream());
-				byte[] buffer = new byte[4096];
-				int count = 0;
-				while ((count = in.read(buffer)) > 0) {
-					out.write(buffer, 0, count);
+				if(!MCheck.isNull(connection)){
+					in = new DataInputStream(connection.getInputStream());
+					byte[] buffer = new byte[4096];
+					int count = 0;
+					while ((count = in.read(buffer)) > 0) {
+						out.write(buffer, 0, count);
+					}
+					isOk=true;
 				}
-				isOk=true;
 			}finally{
-				out.close();
-				in.close();
+				if(out!=null){
+					out.close();
+				}
+				if(in!=null){
+					in.close();
+				}
 			}
 			return isOk;
 	}
@@ -63,7 +71,9 @@ public class MDown {
 				document.append(line + "\n");
 			}
 		}finally{
-			reader.close();
+			if(reader!=null){
+				reader.close();
+			}
 		}
 		return document.toString();
 	}

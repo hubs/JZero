@@ -198,8 +198,10 @@ public class MRecord implements Serializable {
 	 * mediumtext, longtext
 	 */
 	public String getStr(String column) {
-		return MCheck.isNull(columns.get(column)) ? "" : String.valueOf(columns
-				.get(column));
+		return getStr(column,"");
+	}
+	public String getStr(String column ,String def){
+		return MCheck.isNull(columns.get(column)) ? def : String.valueOf(columns.get(column));
 	}
 
 	/**
@@ -225,6 +227,15 @@ public class MRecord implements Serializable {
 	 */
 	public Long getLong(String column) {
 		return (Long) columns.get(column);
+	}
+	public Long getLong(String column,long def){
+		if (!MCheck.isNull(columns)) {
+			Object _temp = columns.get(column);
+			if (!MCheck.isNull(_temp)) {
+				return Long.valueOf(_temp.toString());
+			}
+		}
+		return def;
 	}
 
 	/**
