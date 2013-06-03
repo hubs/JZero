@@ -148,7 +148,7 @@ public class MUpload {
 		image = src.getScaledInstance(src.getWidth(), src.getHeight(),
 				Image.SCALE_DEFAULT);
 		oimage = new BufferedImage(src.getWidth(), src.getHeight(),
-				Image.SCALE_DEFAULT);
+				Image.SCALE_REPLICATE);
 		Graphics g = oimage.getGraphics();
 		g.drawImage(image, 0, 0, null);
 		g.dispose();
