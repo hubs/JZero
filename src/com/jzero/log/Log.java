@@ -3,6 +3,8 @@ package com.jzero.log;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import com.jzero.db.cache.MFile;
 import com.jzero.util.MCheck;
@@ -40,29 +42,32 @@ public final class Log {
 		}
 	}
 
-	public synchronized void write_log(LogEnum level, Exception e) {
-		write_log(level, e.getMessage());
-	}
 
 	private void clear(StringBuffer  ss) {
 			if(!MCheck.isNull(ss)){
 				ss.delete(0, ss.length());
 			}
 	}
+	public  void write_log(LogEnum level, Exception e) {
+		write_log(level, e.getMessage());
+	}
 
 	public void write_error(Exception e) {
 		clear(sb);
-		StackTraceElement[] elements= e.fillInStackTrace().getStackTrace();
-		for(StackTraceElement row:elements){
-			if(!MCheck.isNull(row.getFileName())){
-				if(row.getFileName().equals(getClass().getSimpleName()+".java")){
-					continue;
-				}
-				sb.append("\n ERROR INFO : "+e)
-				.append("\t").append(" =>").append(row.getFileName()).append(".").append(row.getClassName()).append(".").append(row.getLineNumber());
-			}
-		}
-		write_log(LogEnum.ERROR,sb.toString());
+		StringWriter trace = new StringWriter();
+		e.printStackTrace(new PrintWriter(trace));
+		write_log(LogEnum.ERROR,trace.toString());
+//		StackTraceElement[] elements= e.fillInStackTrace().getStackTrace();
+//		for(StackTraceElement row:elements){
+//			if(!MCheck.isNull(row.getFileName())){
+//				if(row.getFileName().equals(getClass().getSimpleName()+".java")){
+//					continue;
+//				}
+//				sb.append("\n ERROR INFO : "+e)
+//				.append("\t").append(" =>").append(row.getFileName()).append(".").append(row.getClassName()).append(".").append(row.getLineNumber());
+//			}
+//		}
+//		write_log(LogEnum.ERROR,sb.toString());
 	}
 
 	public void write_debug(String msg) {

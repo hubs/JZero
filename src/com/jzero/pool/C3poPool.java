@@ -21,8 +21,8 @@ public class C3poPool implements IPool {
 			config.setPassword(pass);
 			config.setDriverClass(driver);
 			config.setInitialPoolSize(20);
-			config.setMaxPoolSize(100);
-			config.setMinPoolSize(10);
+			config.setMaxPoolSize(1000);
+			config.setMinPoolSize(100);
 			config.setInitialPoolSize(10);
 			config.setMaxIdleTime(25000);//最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0
 			config.setAcquireIncrement(2);

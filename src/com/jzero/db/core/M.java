@@ -43,7 +43,14 @@ public class M {
 			String sqlType = "com.jzero.db.core." + MPro.me().getStr("db_type");
 			db = (CBase) Class.forName(sqlType).newInstance();
 		} catch (Exception e1) {
-			Log.me().write_error(e1);
+			//2013-6-26:如果出错,则给它默认一个
+			String sqlType = "com.jzero.db.core.CMySQL";
+			try{
+				db = (CBase) Class.forName(sqlType).newInstance();
+			}catch(Exception e){
+				Log.me().write_error(e1);
+			}
+			
 		}
 		return db;
 	}
